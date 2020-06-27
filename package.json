@@ -1,0 +1,38 @@
+{
+  "name": "memebot",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Discord bot for memes",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --experimental-json-modules --require dotenv/config src/index.js"
+  },
+  "author": "Arjun Chib",
+  "license": "ISC",
+  "type": "module",
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "env": {
+      "es6": true
+    },
+    "sourceType": "module"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "bufferutil": "^4.0.1",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "erlpack": "github:discordapp/erlpack",
+    "sodium": "^3.0.2",
+    "utf-8-validate": "^5.0.2",
+    "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "prettier": "^2.0.5"
+  }
+}

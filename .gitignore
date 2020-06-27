@@ -1,0 +1,6 @@
+*.swp
+node_modules
+/audio
+/memes
+/lookup.json
+.env
