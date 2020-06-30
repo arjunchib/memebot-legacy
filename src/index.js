@@ -1,5 +1,6 @@
 import Discord from "discord.js";
-import play from "./commands/play.js";
+import meme from "./meme/index.js";
+import list from "./list/index.js";
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
@@ -15,9 +16,12 @@ client.on("message", async (msg) => {
     .split(" ")
     .filter((x) => x !== "")
     .slice(1);
-  switch (msg.content) {
+  switch (args[0].split(":")[0]) {
+    case "list":
+      list({ msg, args });
+      break;
     default:
-      play({ msg, args });
+      meme({ msg, args });
       break;
   }
 });
