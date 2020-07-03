@@ -5,7 +5,7 @@
   "description": "Discord bot for memes",
   "main": "src/index.js",
   "scripts": {
-    "start": "node --experimental-json-modules --require dotenv/config src/index.js"
+    "start": "node --experimental-json-modules --harmony-top-level-await --require dotenv/config src/index.js"
   },
   "author": "Arjun Chib",
   "license": "ISC",

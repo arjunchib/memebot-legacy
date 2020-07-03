@@ -2,23 +2,23 @@ import fs from "fs/promises";
 import filter from "./filter.js";
 import sort from "./sort.js";
 
-export default async function ({ msg, args }) {
-  // Read memes
-  const files = await fs.readdir("./memes");
-  const promises = files
-    .filter((file) => file.endsWith(".json"))
-    .map((file) => fs.readFile(`./memes/${file}`, "utf8"))
-    .map((promise) => promise.then(JSON.parse));
-  let memes = await Promise.all(promises);
+const MAX_SEGMENTS = 60;
 
-  // Create list
-  let field;
+const segmentMapper = ([name, field]) => {
+  const nameStr = name.substring(0, 20).padEnd(20, "\u00A0");
+  if (field !== undefined) {
+    const fieldStr = field.toString().substring(0, 9).padStart(10, "\u00A0");
+    return `\`${nameStr}\u00A0${fieldStr}\``;
+  } else {
+    return `\`${nameStr}\``;
+  }
+};
+
+export default async function ({ memes, msg, args, field }) {
+  memes = Array.from(memes);
   args.forEach((arg) => {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
-      case "list":
-        if (listArgs.length > 1) field = listArgs[1];
-        break;
       case "filter":
         memes = filter({ memes, args: listArgs });
         break;
@@ -27,17 +27,11 @@ export default async function ({ msg, args }) {
         break;
     }
   });
-
-  // Send list
-  const list =
-    field === undefined
-      ? memes.map((meme) => meme.name)
-      : memes.reduce((acc, meme) => {
-          acc[meme.name] = meme[field];
-          return acc;
-        }, {});
-  const output = `\`\`\`json\n${JSON.stringify(list)}\`\`\``;
-  const append = Array.isArray(list) ? "]```" : "}```";
-  const prepend = Array.isArray(list) ? "```json\n[" : "```json\n{";
-  await msg.channel.send(output, { split: { char: ",", append, prepend } });
+  const segments = memes
+    .map((meme) => [meme.name, meme[field]])
+    .map(segmentMapper);
+  const maxLength = segments[0].length * MAX_SEGMENTS + MAX_SEGEMENTS - 1;
+  await msg.channel.send(segments.join(" "), {
+    split: { char: " ", maxLength },
+  });
 }
