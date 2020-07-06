@@ -5,7 +5,7 @@
   "description": "Discord bot for memes",
   "main": "src/index.js",
   "scripts": {
-    "start": "node --experimental-json-modules --harmony-top-level-await --require dotenv/config src/index.js"
+    "start": "node --require dotenv/config src/index.js"
   },
   "author": "Arjun Chib",
   "license": "ISC",
@@ -16,9 +16,12 @@
       "prettier"
     ],
     "env": {
-      "es6": true
+      "es2020": true,
+      "node": true
     },
-    "sourceType": "module"
+    "parserOptions": {
+      "sourceType": "module"
+    }
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.2",

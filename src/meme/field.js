@@ -1,6 +1,6 @@
 export default async function ({ msg, args, meme, field }) {
-  const op = args.unshift();
-  const value = args.unshift();
+  const op = args.shift();
+  const value = args.shift();
   switch (op) {
     case "set":
       meme[field] = value;
@@ -10,11 +10,13 @@ export default async function ({ msg, args, meme, field }) {
         meme[field].push(value);
       }
       break;
-    case: "delete":
-      const index = meme[field].findIndex(entry => entry === value)
+    case "delete": {
+      const index = meme[field].findIndex((entry) => entry === value);
       if (index !== -1) {
-        meme[field].splice(index, 1)
+        meme[field].splice(index, 1);
       }
       break;
+    }
   }
+  await msg.react("✅");
 }

@@ -1,7 +1,3 @@
-import lookupJSON from "../../lookup.json";
-
-const lookup = new Map(lookupJSON);
-
 export default async function ({ msg, meme }) {
   const channel = msg.member.voice.channel;
   const conn = await channel.join();

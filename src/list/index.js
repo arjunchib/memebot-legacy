@@ -1,4 +1,3 @@
-import fs from "fs/promises";
 import filter from "./filter.js";
 import sort from "./sort.js";
 
@@ -30,7 +29,7 @@ export default async function ({ memes, msg, args, field }) {
   const segments = memes
     .map((meme) => [meme.name, meme[field]])
     .map(segmentMapper);
-  const maxLength = segments[0].length * MAX_SEGMENTS + MAX_SEGEMENTS - 1;
+  const maxLength = segments[0].length * MAX_SEGMENTS + MAX_SEGMENTS - 1;
   await msg.channel.send(segments.join(" "), {
     split: { char: " ", maxLength },
   });
