@@ -1,5 +1,6 @@
 import filter from "./filter.js";
 import sort from "./sort.js";
+import memes from "../memes.js";
 
 const MAX_SEGMENTS = 60;
 
@@ -13,20 +14,20 @@ const segmentMapper = ([name, field]) => {
   }
 };
 
-export default async function ({ memes, msg, args, field }) {
-  memes = Array.from(memes);
+export default async function ({ msg, args, field }) {
+  let myMemes = Array.from(memes);
   args.forEach((arg) => {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
       case "filter":
-        memes = filter({ memes, args: listArgs });
+        myMemes = filter({ memes: myMemes, args: listArgs });
         break;
       case "sort":
-        memes = sort({ memes, args: listArgs });
+        myMemes = sort({ memes: myMemes, args: listArgs });
         break;
     }
   });
-  const segments = memes
+  const segments = myMemes
     .map((meme) => [meme.name, meme[field]])
     .map(segmentMapper);
   const maxLength = segments[0].length * MAX_SEGMENTS + MAX_SEGMENTS - 1;

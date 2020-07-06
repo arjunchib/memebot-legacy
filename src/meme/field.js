@@ -1,3 +1,6 @@
+import fs from "fs/promises";
+import info from "./info.js";
+
 export default async function ({ msg, args, meme, field }) {
   const op = args.shift();
   const value = args.shift();
@@ -18,5 +21,6 @@ export default async function ({ msg, args, meme, field }) {
       break;
     }
   }
-  await msg.react("✅");
+  fs.writeFile(`./memes/${meme.name}.json`, JSON.stringify(meme, null, 2));
+  info({ msg, meme });
 }
