@@ -21,6 +21,9 @@ export default async function ({ msg, args, meme, field }) {
       break;
     }
   }
-  fs.writeFile(`./memes/${meme.name}.json`, JSON.stringify(meme, null, 2));
-  info({ msg, meme });
+  await fs.writeFile(
+    `./memes/${meme.name}.json`,
+    JSON.stringify(meme, null, 2)
+  );
+  await info({ msg, meme });
 }
