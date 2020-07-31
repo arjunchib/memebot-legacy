@@ -1,50 +1,33 @@
 import ytdl from "ytdl-core";
-import prism from "prism-media";
 import memes from "./memes.js";
 import info from "./meme/info.js";
 import fs from "fs";
 import lookup from "./lookup.js";
-import stream from "stream";
-import util from "util";
+import ffmpeg from "fluent-ffmpeg";
+
+function transcode(input, output, options) {
+  const outputOptions = ["-f ogg"];
+  if (options.start) outputOptions.push(`-ss ${options.start}`);
+  if (options.end) outputOptions.push(`-to ${options.end}`);
+  return new Promise((resolve, reject) => {
+    ffmpeg(input)
+      .noVideo()
+      .audioCodec("libopus")
+      .audioFilters("loudnorm")
+      .outputOptions(outputOptions)
+      .on("error", (err) => reject(err))
+      .on("end", () => resolve())
+      .save(output);
+  });
+}
 
 export default async function ({ msg, args }) {
   const [sourceURL, start, end, name, ...aliases] = args;
   const audioPath = `./audio/${name}.opus`;
   const memePath = `./memes/${name}.json`;
   try {
-    const input = ytdl(sourceURL);
-    const transcoder = new prism.FFmpeg({
-      // prettier-ignore
-      args: [
-      "-analyzeduration", "0",
-      "-loglevel", "0",
-      "-ss", start,
-      "-to", end,
-      "-filter:a", "loudnorm",
-      "-c:a", "libopus",
-      "-f", "ogg",
-    ]
-    });
-    const file = fs.createWriteStream(audioPath);
-    transcoder.on("error", (error) => {
-      console.log(error);
-      console.log(input);
-    });
-    input.on("end", () => {
-      console.log("input end");
-    });
-    transcoder.on("end", () => {
-      console.log("transcoder end");
-      input.unpipe(transcoder);
-      input.push(null);
-    });
-    transcoder.process.stdin.on("close", () => {
-      console.log("Stdin close");
-    });
-    transcoder.on("unpipe", () => {
-      console.log("transcoder unpipe");
-    });
-    input.pipe(transcoder).pipe(file);
+    const input = ytdl(sourceURL, { filter: "audioonly" });
+    await transcode(input, audioPath, { start, end });
     const meme = {
       name,
       createdAt: new Date(),

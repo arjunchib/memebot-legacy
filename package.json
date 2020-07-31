@@ -29,7 +29,8 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "erlpack": "github:discordapp/erlpack",
-    "ffmpeg-static": "^4.2.5",
+    "ffmpeg-static": "^4.2.6",
+    "fluent-ffmpeg": "^2.1.2",
     "prism-media": "^1.2.2",
     "sodium": "^3.0.2",
     "utf-8-validate": "^5.0.2",
@@ -37,7 +38,7 @@
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.3.1",
+    "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "prettier": "^2.0.5"
   }
