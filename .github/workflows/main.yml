@@ -31,7 +31,8 @@ jobs:
           script_stop: true
           script: |
             cd /home/${{ secrets.username }}/memebot
-            git pull
+            git fetch --all
+            git reset --hard origin/master            
             nvm install
             nvm use
             npm install --only=prod
