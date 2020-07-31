@@ -15,7 +15,7 @@ const segmentMapper = ([name, field]) => {
 };
 
 export default async function ({ msg, args, field }) {
-  let myMemes = memes.values();
+  let myMemes = Array.from(memes.values());
   args.forEach((arg) => {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
