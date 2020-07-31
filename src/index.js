@@ -31,6 +31,9 @@ client.on("message", async (msg) => {
       case "add":
         add({ msg, args });
         break;
+      case "help":
+        msg.channel.send("Commands: add, list, [meme], help");
+        break;
       default: {
         if (!lookup.has(arg[0].toLowerCase())) {
           await msg.react("🚫");
