@@ -4,6 +4,8 @@ import memes from "./memes.js";
 import info from "./meme/info.js";
 import fs from "fs";
 import lookup from "./lookup.js";
+import stream from "stream";
+import util from "util";
 
 export default async function ({ msg, args }) {
   const [sourceURL, start, end, name, ...aliases] = args;
@@ -17,14 +19,31 @@ export default async function ({ msg, args }) {
       "-analyzeduration", "0",
       "-loglevel", "0",
       "-ss", start,
-      "-t", end,
-      "-async", "1",
+      "-to", end,
       "-filter:a", "loudnorm",
       "-c:a", "libopus",
       "-f", "ogg",
     ]
     });
     const file = fs.createWriteStream(audioPath);
+    transcoder.on("error", (error) => {
+      console.log(error);
+      console.log(input);
+    });
+    input.on("end", () => {
+      console.log("input end");
+    });
+    transcoder.on("end", () => {
+      console.log("transcoder end");
+      input.unpipe(transcoder);
+      input.push(null);
+    });
+    transcoder.process.stdin.on("close", () => {
+      console.log("Stdin close");
+    });
+    transcoder.on("unpipe", () => {
+      console.log("transcoder unpipe");
+    });
     input.pipe(transcoder).pipe(file);
     const meme = {
       name,
@@ -40,7 +59,7 @@ export default async function ({ msg, args }) {
       aliases,
       tags: [],
     };
-    memes.push(meme);
+    memes.set(name, meme);
     [name, ...aliases].forEach((cmd) => lookup.set(cmd, name));
     await fs.promises.writeFile(memePath, JSON.stringify(meme, null, 2));
     await fs.promises.writeFile(`./lookup.json`, JSON.stringify([...lookup]));
@@ -48,9 +67,8 @@ export default async function ({ msg, args }) {
   } catch (e) {
     if (await fs.promises.access(audioPath)) await fs.unlink(audioPath);
     if (await fs.promises.access(memePath)) await fs.unlink(memePath);
-    const memeIndex = memes.findIndex((meme) => meme.name);
-    if (memeIndex !== -1) memes.splice(memeIndex, 1);
-    [name, ...aliases].forEach((cmd) => lookup.delete(cmd, name));
+    memes.delete(name);
+    [name, ...aliases].forEach((cmd) => lookup.delete(cmd));
     throw e;
   }
 }

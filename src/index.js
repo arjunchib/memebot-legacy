@@ -32,15 +32,19 @@ client.on("message", async (msg) => {
         add({ msg, args });
         break;
       default: {
+        if (!lookup.has(arg[0].toLowerCase())) {
+          await msg.react("🚫");
+          return;
+        }
         const name = lookup.get(arg[0].toLowerCase());
-        const meme = memes.find((meme) => meme.name.toLowerCase() === name);
-        await parseMeme({ meme, name: arg[0].toLowerCase(), msg, args });
+        const meme = memes.get(name);
+        await parseMeme({ msg, args, meme });
         break;
       }
     }
   } catch (e) {
     console.log(e);
-    msg.channel.send(e.message);
+    msg.channel.send(`⛔️ ${e.message} ⛔️`);
   }
 });
 
