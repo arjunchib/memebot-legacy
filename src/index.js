@@ -8,7 +8,7 @@ import add from "./add.js";
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
-const prefix = "!ml";
+const prefix = process.env.PREFIX;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
