@@ -23,8 +23,8 @@ function transcode(input, output, options) {
 
 export default async function ({ msg, args }) {
   const [sourceURL, start, end, name, ...aliases] = args;
-  const audioPath = `./audio/${name}.opus`;
-  const memePath = `./memes/${name}.json`;
+  const audioPath = `./data/audio/${name}.opus`;
+  const memePath = `./data/memes/${name}.json`;
   try {
     const input = ytdl(sourceURL, { filter: "audioonly" });
     await transcode(input, audioPath, { start, end });
@@ -45,7 +45,10 @@ export default async function ({ msg, args }) {
     memes.set(name, meme);
     [name, ...aliases].forEach((cmd) => lookup.set(cmd, name));
     await fs.promises.writeFile(memePath, JSON.stringify(meme, null, 2));
-    await fs.promises.writeFile(`./lookup.json`, JSON.stringify([...lookup]));
+    await fs.promises.writeFile(
+      `./data/lookup.json`,
+      JSON.stringify([...lookup])
+    );
     await info({ msg, meme });
   } catch (e) {
     if (await fs.promises.access(audioPath)) await fs.unlink(audioPath);

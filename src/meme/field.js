@@ -22,7 +22,7 @@ export default async function ({ msg, args, meme, field }) {
     }
   }
   await fs.writeFile(
-    `./memes/${meme.name}.json`,
+    `./data/memes/${meme.name}.json`,
     JSON.stringify(meme, null, 2)
   );
   await info({ msg, meme });
