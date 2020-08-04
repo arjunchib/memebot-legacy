@@ -34,6 +34,6 @@ jobs:
             git reset --hard origin/master
             nvm install
             npm install --only=prod
-            pm2 startOrReload ecosystem.config.js
+            pm2 startOrReload ecosystem.config.cjs
             pm2 save
           EOF
