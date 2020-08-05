@@ -4,6 +4,7 @@ import list from "./list/index.js";
 import memes from "./memes.js";
 import lookup from "./lookup.js";
 import add from "./add.js";
+import help from "./help.js";
 
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
@@ -32,7 +33,7 @@ client.on("message", async (msg) => {
         add({ msg, args });
         break;
       case "help":
-        msg.channel.send("Commands: add, list, [meme], help");
+        help({ msg, prefix });
         break;
       default: {
         if (!lookup.has(arg[0].toLowerCase())) {
