@@ -16,6 +16,7 @@ const segmentMapper = ([name, field]) => {
 
 export default async function ({ msg, args, field }) {
   let myMemes = Array.from(memes.values());
+  if (args.length === 0) args = ["limit:60", "sort:shuffle"];
   args.forEach((arg) => {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
@@ -24,6 +25,9 @@ export default async function ({ msg, args, field }) {
         break;
       case "sort":
         myMemes = sort({ memes: myMemes, args: listArgs });
+        break;
+      case "limit":
+        myMemes = myMemes.slice(0, listArgs[1]);
         break;
     }
   });
