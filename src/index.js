@@ -5,6 +5,7 @@ import memes from "./memes.js";
 import lookup from "./lookup.js";
 import add from "./add.js";
 import help from "./help.js";
+import access from "./util/access.js";
 
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
@@ -30,7 +31,7 @@ client.on("message", async (msg) => {
         break;
       }
       case "add":
-        add({ msg, args });
+        if (access(msg, 1)) add({ msg, args });
         break;
       case "help":
         help({ msg, prefix });

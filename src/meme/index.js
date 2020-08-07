@@ -2,6 +2,7 @@ import play from "./play.js";
 import info from "./info.js";
 import field from "./field.js";
 import del from "./delete.js";
+import access from "../util/access.js";
 
 export default async function ({ msg, args, meme }) {
   if (args.length === 0) {
@@ -10,13 +11,13 @@ export default async function ({ msg, args, meme }) {
     const arg = args.shift();
     switch (arg) {
       case "delete":
-        await del({ msg, meme });
+        if (access(msg, 1)) await del({ msg, meme });
         break;
       case "info":
-        await info({ msg, meme });
+        if (access(msg, 1)) await info({ msg, meme });
         break;
       default:
-        await field({ msg, args, meme, field: arg });
+        if (access(msg, 1)) await field({ msg, args, meme, field: arg });
         break;
     }
   }
