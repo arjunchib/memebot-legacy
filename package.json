@@ -5,7 +5,7 @@
   "description": "Discord bot for memes",
   "main": "src/index.js",
   "scripts": {
-    "start": "node --require dotenv/config src/index.js"
+    "start": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config src/index.js"
   },
   "author": "Arjun Chib",
   "license": "ISC",

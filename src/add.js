@@ -1,33 +1,20 @@
 import ytdl from "ytdl-core";
 import memes from "./memes.js";
 import info from "./meme/info.js";
-import fs from "fs";
+import fs from "fs/promises";
 import lookup from "./lookup.js";
-import ffmpeg from "fluent-ffmpeg";
-
-function transcode(input, output, options) {
-  const outputOptions = ["-f ogg"];
-  if (options.start) outputOptions.push(`-ss ${options.start}`);
-  if (options.end) outputOptions.push(`-to ${options.end}`);
-  return new Promise((resolve, reject) => {
-    ffmpeg(input)
-      .noVideo()
-      .audioCodec("libopus")
-      .audioFilters("loudnorm")
-      .outputOptions(outputOptions)
-      .on("error", (err) => reject(err))
-      .on("end", () => resolve())
-      .save(output);
-  });
-}
+import transcode from "./util/transcode.js";
 
 export default async function ({ msg, args }) {
   const [sourceURL, start, end, name, ...aliases] = args;
   const audioPath = `./data/audio/${name}.opus`;
   const memePath = `./data/memes/${name}.json`;
   try {
-    const input = ytdl(sourceURL, { filter: "audioonly" });
-    await transcode(input, audioPath, { start, end });
+    const input = ytdl(sourceURL, {
+      filter: "audioonly",
+      quality: "highestaudio",
+    });
+    const metadata = await transcode(input, audioPath, { start, end });
     const meme = {
       name,
       createdAt: new Date(),
@@ -38,21 +25,21 @@ export default async function ({ msg, args }) {
       sourceURL,
       start,
       end,
-      volume: 1,
       aliases,
       tags: [],
+      ...metadata,
     };
     memes.set(name, meme);
     [name, ...aliases].forEach((cmd) => lookup.set(cmd, name));
-    await fs.promises.writeFile(memePath, JSON.stringify(meme, null, 2));
-    await fs.promises.writeFile(
-      `./data/lookup.json`,
-      JSON.stringify([...lookup])
-    );
+    await fs.writeFile(memePath, JSON.stringify(meme, null, 2));
     await info({ msg, meme });
   } catch (e) {
-    if (await fs.promises.access(audioPath)) await fs.unlink(audioPath);
-    if (await fs.promises.access(memePath)) await fs.unlink(memePath);
+    try {
+      await fs.unlink(audioPath);
+      await fs.unlink(memePath);
+    } catch {
+      // Do nothing as the file was likely never created
+    }
     memes.delete(name);
     [name, ...aliases].forEach((cmd) => lookup.delete(cmd));
     throw e;
