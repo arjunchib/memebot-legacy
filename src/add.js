@@ -11,6 +11,7 @@ export default async function ({ msg, args }) {
   const audioPath = `./data/audio/${name}.opus`;
   const memePath = `./data/memes/${name}.json`;
   try {
+    msg.channel.startTyping();
     const input = ytdl(sourceURL, {
       filter: "audioonly",
       quality: "highestaudio",
@@ -33,6 +34,7 @@ export default async function ({ msg, args }) {
     memes.set(name, meme);
     [name, ...aliases].forEach((cmd) => lookup.set(cmd, name));
     await save(memePath, meme, { pretty: true });
+    msg.channel.stopTyping(true);
     await info({ msg, meme });
   } catch (e) {
     try {
