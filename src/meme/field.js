@@ -1,5 +1,5 @@
-import fs from "fs/promises";
 import info from "./info.js";
+import save from "../util/save.js";
 
 export default async function ({ msg, args, meme, field }) {
   const op = args.shift();
@@ -21,9 +21,6 @@ export default async function ({ msg, args, meme, field }) {
       break;
     }
   }
-  await fs.writeFile(
-    `./data/memes/${meme.name}.json`,
-    JSON.stringify(meme, null, 2)
-  );
+  await save(`./data/memes/${meme.name}.json`, meme, { pretty: true });
   await info({ msg, meme });
 }

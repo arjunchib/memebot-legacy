@@ -4,6 +4,7 @@ import info from "./meme/info.js";
 import fs from "fs/promises";
 import lookup from "./lookup.js";
 import transcode from "./util/transcode.js";
+import save from "./util/save.js";
 
 export default async function ({ msg, args }) {
   const [sourceURL, start, end, name, ...aliases] = args;
@@ -31,7 +32,7 @@ export default async function ({ msg, args }) {
     };
     memes.set(name, meme);
     [name, ...aliases].forEach((cmd) => lookup.set(cmd, name));
-    await fs.writeFile(memePath, JSON.stringify(meme, null, 2));
+    await save(memePath, meme, { pretty: true });
     await info({ msg, meme });
   } catch (e) {
     try {
