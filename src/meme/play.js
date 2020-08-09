@@ -5,6 +5,8 @@ export default async function ({ msg, meme }) {
   const guild = msg.member.guild;
   if (guilds.has(guild.id)) {
     msg.react("🙅");
+  } else if (!channel) {
+    msg.react("🔇");
   } else {
     guilds.add(guild.id);
     const conn = await channel.join();
