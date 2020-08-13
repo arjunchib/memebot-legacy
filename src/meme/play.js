@@ -14,6 +14,8 @@ export default async function ({ msg, meme }) {
     dispatcher.on("finish", () => {
       channel.leave();
       conn.disconnect();
+    });
+    dispatcher.on("close", () => {
       guilds.delete(guild.id);
     });
   }
