@@ -5,6 +5,7 @@ import memes from "./memes.js";
 import lookup from "./lookup.js";
 import add from "./add.js";
 import help from "./help.js";
+import search from "./search.js";
 import access from "./util/access.js";
 
 const client = new Discord.Client({
@@ -35,6 +36,9 @@ client.on("message", async (msg) => {
         break;
       case "help":
         help({ msg, prefix });
+        break;
+      case "search":
+        search({ msg, args });
         break;
       default: {
         if (!lookup.has(arg[0].toLowerCase())) {
