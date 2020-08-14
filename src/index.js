@@ -32,7 +32,7 @@ client.on("message", async (msg) => {
         break;
       }
       case "add":
-        if (access(msg, 1)) add({ msg, args });
+        if (access(msg, 1)) await add({ msg, args });
         break;
       case "help":
         help({ msg, prefix });

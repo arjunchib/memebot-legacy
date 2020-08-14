@@ -8,6 +8,8 @@ export default async function ({ msg, meme }) {
   await fs.unlink(audioPath);
   await fs.unlink(memePath);
   memes.delete(meme.name);
-  [meme.name, ...meme.aliases].forEach((cmd) => lookup.delete(cmd));
+  [meme.name, ...meme.aliases].forEach((cmd) =>
+    lookup.delete(cmd.toLowerCase())
+  );
   await msg.react("🚮");
 }
