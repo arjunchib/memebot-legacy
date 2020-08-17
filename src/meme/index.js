@@ -4,9 +4,9 @@ import field from "./field.js";
 import del from "./delete.js";
 import access from "../util/access.js";
 
-export default async function ({ msg, args, meme }) {
+export default async function ({ msg, args, meme, stats }) {
   if (args.length === 0) {
-    await play({ msg, meme });
+    await play({ msg, meme, stats });
   } else {
     const arg = args.shift();
     switch (arg) {

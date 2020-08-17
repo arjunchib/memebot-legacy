@@ -7,14 +7,17 @@ import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
 import access from "./util/access.js";
+import Stats from "./util/stats.js";
 
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
 const prefix = process.env.PREFIX;
+const stats = new Stats(client);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  stats.totalGuild();
 });
 
 client.on("message", async (msg) => {
@@ -47,7 +50,7 @@ client.on("message", async (msg) => {
         }
         const name = lookup.get(arg[0].toLowerCase());
         const meme = memes.get(name);
-        await parseMeme({ msg, args, meme });
+        await parseMeme({ msg, args, meme, stats });
         break;
       }
     }
@@ -56,5 +59,8 @@ client.on("message", async (msg) => {
     msg.channel.send(`⛔️ ${e.message} ⛔️`);
   }
 });
+
+client.on("guildCreate", () => stats.gainGuild());
+client.on("guildDelete", () => stats.lossGuild());
 
 client.login(process.env.BOT_TOKEN);

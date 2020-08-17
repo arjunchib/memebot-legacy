@@ -1,6 +1,6 @@
 const guilds = new Set();
 
-export default async function ({ msg, meme }) {
+export default async function ({ msg, meme, stats }) {
   const channel = msg.member.voice.channel;
   const guild = msg.member.guild;
   if (guilds.has(guild.id)) {
@@ -18,5 +18,6 @@ export default async function ({ msg, meme }) {
     dispatcher.on("close", () => {
       guilds.delete(guild.id);
     });
+    await stats.log(meme);
   }
 }
