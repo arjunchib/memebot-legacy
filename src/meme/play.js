@@ -18,6 +18,6 @@ export default async function ({ msg, meme, stats }) {
     dispatcher.on("close", () => {
       guilds.delete(guild.id);
     });
-    await stats.log(meme);
+    await stats.logPlay(meme);
   }
 }

@@ -17,7 +17,7 @@ const stats = new Stats(client);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  stats.totalGuild();
+  stats.logGuildChange(0);
 });
 
 client.on("message", async (msg) => {
@@ -60,7 +60,7 @@ client.on("message", async (msg) => {
   }
 });
 
-client.on("guildCreate", () => stats.gainGuild());
-client.on("guildDelete", () => stats.lossGuild());
+client.on("guildCreate", () => stats.logGuildChange(1));
+client.on("guildDelete", () => stats.logGuildChange(-1));
 
 client.login(process.env.BOT_TOKEN);

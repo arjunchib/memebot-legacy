@@ -40,38 +40,39 @@ export default class Stats {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  async log(meme) {
+  async log(cb) {
     const now = new Date();
     if (this.needsReset(now)) this.reset();
-    // Hours must be converted due to objects only having string keys
-    Stats.increment(this.playsPerHour, String(now.getUTCHours()));
-    Stats.increment(this.playsPerMeme, meme.name);
+    const result = cb(now);
     this.lastModifiedAt = now;
     await this.save(now);
+    return result;
   }
 
-  async gainGuild() {
-    const now = new Date();
-    if (this.needsReset(now)) this.reset();
-    this.guilds.gain += 1;
-    this.guilds.net += 1;
-    this.totalGuild();
-    this.lastModifiedAt = now;
-    await this.save(now);
+  async logPlay(meme) {
+    await this.log((date) => {
+      // Hours must be converted due to objects only having string keys
+      Stats.increment(this.playsPerHour, String(date.getUTCHours()));
+      Stats.increment(this.playsPerMeme, meme.name);
+    });
   }
 
-  async lossGuild() {
-    const now = new Date();
-    if (this.needsReset(now)) this.reset();
-    this.guilds.loss += 1;
-    this.guilds.net -= 1;
-    this.totalGuild();
-    this.lastModifiedAt = now;
-    await this.save(now);
-  }
-
-  totalGuild() {
-    this.guilds.total = this.client.guilds.cache.size;
+  async logGuildChange(delta) {
+    if (![-1, 0, 1].includes(delta)) {
+      throw new Error("Invalid guild stat change");
+    }
+    await this.log(() => {
+      switch (delta) {
+        case 1:
+          this.guilds.gain += 1;
+          break;
+        case -1:
+          this.guilds.loss += 1;
+          break;
+      }
+      this.guilds.net += delta;
+      this.guilds.total = this.client.guilds.cache.size;
+    });
   }
 
   async save(date = new Date()) {
