@@ -14,7 +14,7 @@ export default async function ({ msg, args, meme, stats }) {
         if (access(msg, 1)) await del({ msg, meme });
         break;
       case "info":
-        if (access(msg, 1)) await info({ msg, meme });
+        await info({ msg, meme });
         break;
       default:
         if (access(msg, 1)) await field({ msg, args, meme, field: arg });
