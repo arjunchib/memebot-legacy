@@ -2,6 +2,7 @@ import access from "./util/access.js";
 
 const baseCommands = [
   { emoji: ":loud_sound:", msg: "<meme>" },
+  { emoji: ":slot_machine:", msg: "random" },
   { emoji: ":mag_right:", msg: "search <meme>" },
   { emoji: ":ledger:", msg: "list" },
   { emoji: ":page_facing_up:", msg: "<meme> info" },
