@@ -6,6 +6,7 @@ import lookup from "./lookup.js";
 import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
+import random from "./random.js";
 import access from "./util/access.js";
 import Stats from "./util/stats.js";
 
@@ -42,6 +43,9 @@ client.on("message", async (msg) => {
         break;
       case "search":
         search({ msg, args });
+        break;
+      case "random":
+        random({ msg, stats });
         break;
       default: {
         if (!lookup.has(arg[0].toLowerCase())) {
