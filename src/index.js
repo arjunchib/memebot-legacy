@@ -45,7 +45,7 @@ client.on("message", async (msg) => {
         search({ msg, args });
         break;
       case "random":
-        random({ msg, stats });
+        random({ msg, stats, client });
         break;
       default: {
         if (!lookup.has(arg[0].toLowerCase())) {
@@ -54,7 +54,7 @@ client.on("message", async (msg) => {
         }
         const name = lookup.get(arg[0].toLowerCase());
         const meme = memes.get(name);
-        await parseMeme({ msg, args, meme, stats });
+        await parseMeme({ msg, args, meme, stats, client });
         break;
       }
     }
