@@ -64,7 +64,12 @@ client.on("message", async (msg) => {
   }
 });
 
-client.on("guildCreate", () => stats.logGuildChange(1));
+client.on("guildCreate", async (guild) => {
+  if (guild.systemChannel) {
+    await guild.systemChannel.send(`${prefix} help`);
+  }
+  stats.logGuildChange(1);
+});
 client.on("guildDelete", () => stats.logGuildChange(-1));
 
 client.login(process.env.BOT_TOKEN);
