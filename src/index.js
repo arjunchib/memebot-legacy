@@ -1,8 +1,7 @@
 import Discord from "discord.js";
 import parseMeme from "./meme/index.js";
 import list from "./list/index.js";
-import memes from "./memes.js";
-import lookup from "./lookup.js";
+import memes from "./util/memes.js";
 import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
@@ -48,12 +47,11 @@ client.on("message", async (msg) => {
         random({ msg, stats, client });
         break;
       default: {
-        if (!lookup.has(arg[0].toLowerCase())) {
+        if (!memes.has(arg[0].toLowerCase())) {
           await msg.react("🚫");
           return;
         }
-        const name = lookup.get(arg[0].toLowerCase());
-        const meme = memes.get(name);
+        const meme = memes.get(arg[0].toLowerCase());
         await parseMeme({ msg, args, meme, stats, client });
         break;
       }

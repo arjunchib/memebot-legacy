@@ -1,5 +1,5 @@
 import play from "./meme/play.js";
-import memes from "./memes.js";
+import memes from "./util/memes.js";
 
 export default async function ({ msg, stats, client }) {
   const names = [...memes.keys()];

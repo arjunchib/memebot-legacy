@@ -1,8 +1,7 @@
 import ytdl from "ytdl-core";
-import memes from "./memes.js";
+import memes from "./util/memes.js";
 import info from "./meme/info.js";
 import fs from "fs/promises";
-import lookup from "./lookup.js";
 import transcode from "./util/transcode.js";
 import save from "./util/save.js";
 
@@ -35,7 +34,7 @@ export default async function ({ msg, args }) {
     }
   });
   const conflicts = [name, ...aliases].filter((cmd) =>
-    lookup.has(cmd.toLowerCase())
+    memes.has(cmd.toLowerCase())
   );
   if (conflicts.length > 0) {
     throw new Error(`Name or alias alreay exists for ${conflicts.join(", ")}`);
@@ -61,10 +60,7 @@ export default async function ({ msg, args }) {
       tags: [],
       ...metadata,
     };
-    memes.set(name, meme);
-    [name, ...aliases].forEach((cmd) =>
-      lookup.set(cmd.toLowerCase(), name.toLowerCase())
-    );
+    [name, ...aliases].forEach((cmd) => memes.set(cmd.toLowerCase(), meme));
     await save(memePath, meme, { pretty: true });
     msg.channel.stopTyping(true);
     await info({ msg, meme });
@@ -75,8 +71,7 @@ export default async function ({ msg, args }) {
     } catch {
       // Do nothing as the file was likely never created
     }
-    memes.delete(name);
-    [name, ...aliases].forEach((cmd) => lookup.delete(cmd));
+    [name, ...aliases].forEach((cmd) => memes.delete(cmd));
     throw e;
   }
 }
