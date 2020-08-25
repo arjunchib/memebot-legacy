@@ -2,7 +2,7 @@ import ytdl from "ytdl-core";
 import AliasSet from "./AliasSet.js";
 import BaseSet from "./BaseSet.js";
 import transcode from "../util/transcode.js";
-import { load, save, loadAll } from "../util/store.js";
+import store from "../util/store.js";
 
 export default class Meme {
   constructor(data) {
@@ -95,7 +95,7 @@ export default class Meme {
   }
 
   async save() {
-    await save(`memes/${this.name}`, this);
+    await store.save(`memes/${this.name}`, this);
   }
 }
 
@@ -111,12 +111,12 @@ Meme.validateCommand = (cmd) => {
 };
 
 Meme.load = async (name) => {
-  const data = await load(`memes/${name}`);
+  const data = await store.load(`memes/${name}`);
   return new Meme(data);
 };
 
 Meme.loadAll = async () => {
-  const data = await loadAll("memes");
+  const data = await store.loadAll("memes");
   return data.map((datum) => new Meme(datum));
 };
 
