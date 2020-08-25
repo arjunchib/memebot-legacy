@@ -3,8 +3,14 @@ import info from "./info.js";
 import field from "./field.js";
 import del from "./delete.js";
 import access from "../util/access.js";
+import Meme from "../structure/Meme.js";
 
-export default async function ({ msg, args, meme, stats, client }) {
+export default async function ({ msg, args, arg, stats, client }) {
+  if (!Meme.all.has(arg[0].toLowerCase())) {
+    await msg.react("🚫");
+    return;
+  }
+  const meme = Meme.all.get(arg[0].toLowerCase());
   if (args.length === 0) {
     await play({ msg, meme, stats, client });
   } else {

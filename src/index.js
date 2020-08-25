@@ -1,11 +1,10 @@
 import Discord from "discord.js";
-import parseMeme from "./meme/index.js";
+import meme from "./meme/index.js";
 import list from "./list/index.js";
 import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
 import random from "./random.js";
-import access from "./util/access.js";
 import Stats from "./util/stats.js";
 import Meme from "./structures/Meme.js";
 
@@ -14,6 +13,7 @@ const client = new Discord.Client({
 });
 const prefix = process.env.PREFIX;
 const stats = new Stats(client);
+const commands = { list, add, help, search, random };
 (async () => await Meme.loadAll())();
 
 client.on("ready", () => {
@@ -29,33 +29,12 @@ client.on("message", async (msg) => {
       .filter((x) => x !== "")
       .slice(1);
     const arg = args.shift().split(":");
-    switch (arg[0]) {
-      case "list": {
-        const field = arg.length === 2 ? arg[1] : undefined;
-        await list({ msg, args, field });
-        break;
-      }
-      case "add":
-        if (access(msg, 1)) await add({ msg, args });
-        break;
-      case "help":
-        help({ msg, prefix });
-        break;
-      case "search":
-        search({ msg, args });
-        break;
-      case "random":
-        random({ msg, stats, client });
-        break;
-      default: {
-        if (!Meme.all.has(arg[0].toLowerCase())) {
-          await msg.react("🚫");
-          return;
-        }
-        const meme = Meme.all.get(arg[0].toLowerCase());
-        await parseMeme({ msg, args, meme, stats, client });
-        break;
-      }
+    const context = { msg, args, arg, prefix, stats, client };
+    const cmd = arg[0].toLowerCase();
+    if (Object.keys(commands).includes(cmd)) {
+      commands[cmd](context);
+    } else {
+      meme.context;
     }
   } catch (e) {
     console.log(e);

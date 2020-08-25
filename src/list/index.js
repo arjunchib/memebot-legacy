@@ -5,7 +5,8 @@ import segment from "../util/segment.js";
 
 const MAX_SEGMENTS = 60;
 
-export default async function ({ msg, args, field }) {
+export default async function ({ msg, args, arg }) {
+  const field = arg.length === 2 ? arg[1] : undefined;
   let myMemes = [...new Set(Meme.all.values())];
   if (args.length === 0) args = ["limit:60", "sort:shuffle"];
   args.forEach((arg) => {
