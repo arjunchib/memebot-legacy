@@ -1,3 +1,5 @@
+import store from "../util/store.js";
+
 export default async function ({ msg, meme, stats, client }) {
   const connectedGuilds = client.voice.connections.map(
     (vc) => vc.channel.guild
@@ -12,9 +14,7 @@ export default async function ({ msg, meme, stats, client }) {
     return false;
   } else {
     const conn = await channel.join();
-    const dispatcher = conn.play(
-      `${process.env.DATA_DIR}/audio/${meme.name}.opus`
-    );
+    const dispatcher = conn.play(store.local.path(`audio/${meme.name}.opus`));
     dispatcher.on("finish", () => {
       channel.leave();
       conn.disconnect();
