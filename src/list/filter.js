@@ -1,4 +1,4 @@
-export default function ({ memes, args }) {
+export default function (memes, args) {
   const field = args[2];
   const value = args[3];
   switch (args[1]) {

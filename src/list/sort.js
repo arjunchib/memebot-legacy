@@ -1,4 +1,4 @@
-export default function ({ memes, args }) {
+export default function (memes, args) {
   let compareFn = (a, b) => a.name.toLowerCase() - b.name.toLowerCase();
   switch (args[1]) {
     case "shuffle":

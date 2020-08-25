@@ -13,10 +13,10 @@ export default async function ({ msg, args, arg }) {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
       case "filter":
-        myMemes = filter({ memes: myMemes, args: listArgs });
+        myMemes = filter(myMemes, listArgs);
         break;
       case "sort":
-        myMemes = sort({ memes: myMemes, args: listArgs });
+        myMemes = sort(myMemes, listArgs);
         break;
       case "limit":
         myMemes = myMemes.slice(0, listArgs[1]);
