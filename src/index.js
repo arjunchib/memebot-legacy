@@ -1,19 +1,20 @@
 import Discord from "discord.js";
 import parseMeme from "./meme/index.js";
 import list from "./list/index.js";
-import memes from "./util/memes.js";
 import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
 import random from "./random.js";
 import access from "./util/access.js";
 import Stats from "./util/stats.js";
+import Meme from "./structures/Meme.js";
 
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
 const prefix = process.env.PREFIX;
 const stats = new Stats(client);
+(async () => await Meme.loadAll())();
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -47,11 +48,11 @@ client.on("message", async (msg) => {
         random({ msg, stats, client });
         break;
       default: {
-        if (!memes.has(arg[0].toLowerCase())) {
+        if (!Meme.all.has(arg[0].toLowerCase())) {
           await msg.react("🚫");
           return;
         }
-        const meme = memes.get(arg[0].toLowerCase());
+        const meme = Meme.all.get(arg[0].toLowerCase());
         await parseMeme({ msg, args, meme, stats, client });
         break;
       }

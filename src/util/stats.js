@@ -1,4 +1,4 @@
-import save from "./save.js";
+import { save } from "./store.js";
 import fs from "fs";
 
 export default class Stats {
@@ -82,7 +82,7 @@ export default class Stats {
       playsPerHour: Object.fromEntries(this.playsPerHour),
       playsPerMeme: Object.fromEntries(this.playsPerMeme),
     };
-    await save(`./data/stats/${timestamp}.json`, data, { pretty: true });
+    await save(`stats/${timestamp}.json`, data);
   }
 
   needsReset(now) {

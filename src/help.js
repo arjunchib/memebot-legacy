@@ -25,9 +25,6 @@ export default function ({ msg, prefix }) {
     ...(access(msg, 1) ? adminCommands : []),
     helpCommand,
   ];
-  /*const max = commands.reduce((acc, val) => {
-    return Math.max(acc, val.msg.length);
-  }, 0);*/
   msg.channel.send(
     commands
       .map((cmd) => `${cmd.emoji} \`${prefix} ${cmd.msg.padEnd(55)}\``)

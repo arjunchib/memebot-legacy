@@ -12,7 +12,9 @@ export default async function ({ msg, meme, stats, client }) {
     return false;
   } else {
     const conn = await channel.join();
-    const dispatcher = conn.play(`./data/audio/${meme.name}.opus`);
+    const dispatcher = conn.play(
+      `${process.env.DATA_DIR}/audio/${meme.name}.opus`
+    );
     dispatcher.on("finish", () => {
       channel.leave();
       conn.disconnect();

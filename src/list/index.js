@@ -1,12 +1,12 @@
 import filter from "./filter.js";
 import sort from "./sort.js";
-import memes from "../util/memes.js";
+import Meme from "../structures/Meme.js";
 import segment from "../util/segment.js";
 
 const MAX_SEGMENTS = 60;
 
 export default async function ({ msg, args, field }) {
-  let myMemes = [...new Set(memes.values())];
+  let myMemes = [...new Set(Meme.all.values())];
   if (args.length === 0) args = ["limit:60", "sort:shuffle"];
   args.forEach((arg) => {
     const listArgs = arg.split(":");

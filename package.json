@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
+    "aws-sdk": "^2.738.0",
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",

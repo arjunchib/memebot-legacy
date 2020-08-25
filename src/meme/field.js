@@ -1,5 +1,4 @@
 import info from "./info.js";
-import save from "../util/save.js";
 
 export default async function ({ msg, args, meme, field }) {
   const op = args.shift();
@@ -21,6 +20,6 @@ export default async function ({ msg, args, meme, field }) {
       break;
     }
   }
-  await save(`./data/memes/${meme.name}.json`, meme, { pretty: true });
+  await meme.save();
   await info({ msg, meme });
 }
