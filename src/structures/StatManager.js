@@ -1,4 +1,4 @@
-import { save } from "./store.js";
+import store from "../util/store.js";
 import fs from "fs";
 
 export default class Stats {
@@ -6,9 +6,9 @@ export default class Stats {
     this.client = client;
     const now = new Date();
     const timestamp = Stats.timestamp(now);
-    const file = `./data/stats/${timestamp}.json`;
-    if (fs.existsSync(file)) {
-      const stats = JSON.parse(fs.readFileSync(file));
+    const key = `stats/${timestamp}.json`;
+    if (fs.existsSync(store.local.path(key))) {
+      const stats = store.load(key);
       this.guilds = stats.guilds;
       this.playsPerMeme = new Map(Object.entries(stats.playsPerMeme));
       this.playsPerHour = new Map(Object.entries(stats.playsPerHour));
@@ -82,7 +82,7 @@ export default class Stats {
       playsPerHour: Object.fromEntries(this.playsPerHour),
       playsPerMeme: Object.fromEntries(this.playsPerMeme),
     };
-    await save(`stats/${timestamp}.json`, data);
+    await store.save(`stats/${timestamp}.json`, data);
   }
 
   needsReset(now) {

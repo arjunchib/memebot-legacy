@@ -5,14 +5,14 @@ import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
 import random from "./random.js";
-import Stats from "./util/stats.js";
+import StatManager from "./structure/StatManager.js";
 import Meme from "./structures/Meme.js";
 
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
 const prefix = process.env.PREFIX;
-const stats = new Stats(client);
+const stats = new StatManager(client);
 const commands = { list, add, help, search, random };
 (async () => await Meme.loadAll())();
 
