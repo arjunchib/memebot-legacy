@@ -5,7 +5,7 @@ import add from "./add.js";
 import help from "./help.js";
 import search from "./search.js";
 import random from "./random.js";
-import StatManager from "./structure/StatManager.js";
+import StatManager from "./structures/StatManager.js";
 import Meme from "./structures/Meme.js";
 
 const client = new Discord.Client({
@@ -34,7 +34,7 @@ client.on("message", async (msg) => {
     if (Object.keys(commands).includes(cmd)) {
       commands[cmd](context);
     } else {
-      meme.context;
+      meme(context);
     }
   } catch (e) {
     console.log(e);

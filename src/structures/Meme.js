@@ -9,13 +9,13 @@ export default class Meme {
     this.name = data.name;
     this.createdAt = data.createdAt;
     this.author = data.author;
-    if (this.sourceURL) this.sourceURL = data.sourceURL;
-    if (this.start) this.start = data.start;
-    if (this.end) this.end = data.end;
+    if (data.sourceURL) this.sourceURL = data.sourceURL;
+    if (data.start) this.start = data.start;
+    if (data.end) this.end = data.end;
     this.aliases = new AliasSet(data.aliases || [], this);
     this.tags = new BaseSet(data.tags || []);
-    if (this.duration) this.duration = data.duration;
-    if (this.loudness) this.loudness = data.loudness;
+    if (data.duration) this.duration = data.duration;
+    if (data.loudness) this.loudness = data.loudness;
     const commands = [this.name, ...this.aliases.values()];
     commands.forEach((cmd) => Meme.all.set(cmd.toLowerCase(), this));
   }
@@ -76,7 +76,6 @@ export default class Meme {
         copy[key] = this[key];
       }
     });
-    console.log(copy);
     return copy;
   }
 

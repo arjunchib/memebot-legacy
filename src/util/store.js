@@ -14,7 +14,7 @@ const local = {
   async load(key) {
     return await fs.promises.readFile(this.path(key), "utf8");
   },
-  async delete(key) {
+  async remove(key) {
     return await fs.promises.unlink(this.path(key));
   },
   path(key) {
@@ -39,7 +39,7 @@ const remote = {
     };
     return await s3.getObject(params).promise();
   },
-  async delete(key) {
+  async remove(key) {
     var params = {
       Bucket: "memebot",
       Key: this.key(key),
@@ -71,10 +71,10 @@ async function loadAll(prefix) {
   return await Promise.all(promises);
 }
 
-async function delete(key) {
-  const localPromise = local.delete(key);
-  const remotePromise = remote.delete(key);
+async function remove(key) {
+  const localPromise = local.remove(key);
+  const remotePromise = remote.remove(key);
   return await Promise.all([localPromise, remotePromise]);
 }
 
-export { save, load, loadAll, delete, local, remote };
+export default { save, load, loadAll, remove, local, remote };

@@ -1,7 +1,7 @@
 import play from "./play.js";
 import info from "./info.js";
 import del from "./delete.js";
-import Meme from "../structure/Meme.js";
+import Meme from "../structures/Meme.js";
 
 export default async function ({ msg, args, arg, stats, client }) {
   if (!Meme.all.has(arg[0].toLowerCase())) {

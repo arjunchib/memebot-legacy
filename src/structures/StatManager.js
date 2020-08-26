@@ -7,8 +7,9 @@ export default class Stats {
     const now = new Date();
     const timestamp = Stats.timestamp(now);
     const key = `stats/${timestamp}.json`;
-    if (fs.existsSync(store.local.path(key))) {
-      const stats = store.load(key);
+    const path = store.local.path(key);
+    if (fs.existsSync(path)) {
+      const stats = JSON.parse(fs.readFileSync(path, "utf8"));
       this.guilds = stats.guilds;
       this.playsPerMeme = new Map(Object.entries(stats.playsPerMeme));
       this.playsPerHour = new Map(Object.entries(stats.playsPerHour));
