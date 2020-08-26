@@ -20,7 +20,7 @@ export default class AliasSet extends BaseSet {
   }
 
   delete(alias) {
-    Meme.all.delete(alias.toLowerCase);
+    Meme.all.delete(alias.toLowerCase());
     super.delete(alias);
   }
 }
