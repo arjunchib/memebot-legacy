@@ -9,7 +9,11 @@ const baseCommands = [
 ];
 
 const adminCommands = [
-  { emoji: ":pencil:", msg: "<meme> <field> <set|add|delete> <value>" },
+  {
+    emoji: ":pencil:",
+    msg: "<meme> <[un]alias|[un]tag|start|end|url> <value>",
+  },
+  { emoji: ":control_knobs:", msg: "<meme> source" },
   {
     emoji: ":cd:",
     msg: "add <sourceURL> <start> <end> <name> [alliases...]",
