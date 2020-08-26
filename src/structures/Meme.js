@@ -80,7 +80,7 @@ export default class Meme {
   }
 
   async source() {
-    const audioPath = `./data/audio/${this.name}/.opus`;
+    const audioPath = store.local.path(`audio/${this.name}.opus`);
     const input = ytdl(this.sourceURL, {
       filter: "audioonly",
       quality: "highestaudio",
@@ -94,7 +94,7 @@ export default class Meme {
   }
 
   async save() {
-    await store.save(`memes/${this.name}`, this);
+    await store.save(`memes/${this.name}.json`, this);
   }
 }
 

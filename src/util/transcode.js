@@ -1,6 +1,7 @@
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import stream from "stream";
+import store from "./store.js";
 
 function parseOutput(output) {
   const duration = output.match(/Duration: (?<duration>.*?),/).groups.duration;
@@ -9,7 +10,7 @@ function parseOutput(output) {
   return { ...measured, duration };
 }
 
-const tempPath = "./data/temp";
+const tempPath = store.local.path("temp");
 
 export default async function (input, output, options = {}) {
   const isStream = input instanceof stream.Readable;

@@ -32,9 +32,9 @@ client.on("message", async (msg) => {
     const context = { msg, args, arg, prefix, stats, client };
     const cmd = arg[0].toLowerCase();
     if (Object.keys(commands).includes(cmd)) {
-      commands[cmd](context);
+      await commands[cmd](context);
     } else {
-      meme(context);
+      await meme(context);
     }
   } catch (e) {
     console.log(e);
