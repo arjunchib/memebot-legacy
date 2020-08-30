@@ -105,11 +105,22 @@ export default class Meme {
     });
     this.duration = metadata.duration;
     this.loudness = metadata.loudness;
-    return await store.remote.save(key, fs.createReadStream(audioPath));
+    await Promise.all([
+      store.remote.save(key, fs.createReadStream(audioPath)),
+      store.local.remove("temp"),
+    ]);
   }
 
   async save() {
     await store.save(`memes/${this.name}.json`, this);
+  }
+
+  async delete() {
+    [this.name, ...this.aliases].forEach((cmd) => Meme.all.delete(cmd));
+    await Promise.all([
+      store.remove(`memes/${this.name}.json`),
+      store.remove(`audio/${this.name}.opus`),
+    ]);
   }
 }
 
