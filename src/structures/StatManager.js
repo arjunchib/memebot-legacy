@@ -1,5 +1,8 @@
 import store from "../util/store.js";
 import fs from "fs";
+import mkdirp from "mkdirp";
+
+mkdirp.sync(store.local.path("stats"));
 
 export default class Stats {
   constructor(client) {

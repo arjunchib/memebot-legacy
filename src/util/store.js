@@ -1,5 +1,8 @@
 import fs from "fs";
 import AWS from "aws-sdk";
+import mkdirp from "mkdirp";
+
+mkdirp.sync(process.env.DATA_DIR);
 
 const s3 = new AWS.S3({
   endpoint: process.env.SPACES_ENDPOINT,

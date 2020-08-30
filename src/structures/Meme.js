@@ -1,8 +1,17 @@
 import ytdl from "ytdl-core";
 import AliasSet from "./AliasSet.js";
 import BaseSet from "./BaseSet.js";
-import transcode from "../util/transcode.js";
 import store from "../util/store.js";
+import audio from "../util/audio.js";
+import fs from "fs";
+import mkdirp from "mkdirp";
+import stream from "stream";
+import { promisify } from "util";
+
+const pipeline = promisify(stream.pipeline);
+
+mkdirp.sync(store.local.path("audio"));
+mkdirp.sync(store.local.path("memes"));
 
 export default class Meme {
   constructor(data) {
@@ -80,17 +89,23 @@ export default class Meme {
   }
 
   async source() {
-    const audioPath = store.local.path(`audio/${this.name}.opus`);
-    const input = ytdl(this.sourceURL, {
-      filter: "audioonly",
-      quality: "highestaudio",
-    });
-    const metadata = await transcode(input, audioPath, {
+    const key = `audio/${this.name}.opus`;
+    const audioPath = store.local.path(key);
+    const tempPath = store.local.path("temp");
+    const input = audio.source.youtube(this.sourceURL);
+    await pipeline(input, fs.createWriteStream(tempPath));
+    const { loudness } = await audio.analyze(tempPath, {
       start: this.start,
       end: this.end,
     });
+    const metadata = await audio.transcode(tempPath, audioPath, {
+      start: this.start,
+      end: this.end,
+      loudness,
+    });
     this.duration = metadata.duration;
     this.loudness = metadata.loudness;
+    return await store.remote.save(key, fs.createReadStream(audioPath));
   }
 
   async save() {

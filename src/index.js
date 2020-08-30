@@ -39,6 +39,7 @@ client.on("message", async (msg) => {
   } catch (e) {
     console.log(e);
     msg.channel.send(`⛔️ ${e.message} ⛔️`);
+    msg.channel.stopTyping(true);
   }
 });
 
