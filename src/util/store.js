@@ -1,6 +1,7 @@
 import fs from "fs";
 import AWS from "aws-sdk";
 import mkdirp from "mkdirp";
+import path from "path";
 
 mkdirp.sync(process.env.DATA_DIR);
 
@@ -27,11 +28,20 @@ const local = {
 
 const remote = {
   async save(key, data) {
+    let ContentType = "application/octet-stream";
+    switch (path.extname(key)) {
+      case ".json":
+        ContentType = "application/json";
+        break;
+      case ".opus":
+        ContentType = "audio/ogg; codecs=opus";
+    }
     const params = {
       Bucket: "memebot",
       Key: this.key(key),
       Body: data,
       ACL: "public-read",
+      ContentType,
     };
     return await s3.upload(params).promise();
   },
