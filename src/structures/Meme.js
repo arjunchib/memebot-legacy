@@ -108,11 +108,18 @@ export default class Meme {
     await Promise.all([
       store.remote.save(key, fs.createReadStream(audioPath)),
       store.local.remove("temp"),
+      this.save(),
     ]);
   }
 
   async save() {
-    await store.save(`memes/${this.name}.json`, this);
+    const key = `memes/${this.name}.json`;
+    const censored = { ...this };
+    delete censored.author;
+    await Promise.all([
+      store.local.save(key, JSON.stringify(this, null, 2)),
+      store.remote.save(key, JSON.stringify(censored, null, 2)),
+    ]);
   }
 
   async delete() {
