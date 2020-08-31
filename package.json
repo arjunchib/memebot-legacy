@@ -5,7 +5,9 @@
   "description": "Discord bot for memes",
   "main": "src/index.js",
   "scripts": {
-    "start": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config src/index.js"
+    "start": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config src/index.js",
+    "resave-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/resave-memes.js",
+    "reupload-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/reupload-memes.js"
   },
   "author": "Arjun Chib",
   "license": "ISC",
