@@ -114,11 +114,15 @@ export default class Meme {
 
   async save() {
     const key = `memes/${this.name}.json`;
-    const censored = { ...this };
-    delete censored.author;
+    const censor = (key, value) => {
+      if (key === "author") return undefined;
+      else return value;
+    };
+    const memes = [...new Set(Meme.all.values())];
     await Promise.all([
       store.local.save(key, JSON.stringify(this, null, 2)),
-      store.remote.save(key, JSON.stringify(censored, null, 2)),
+      store.remote.save(key, JSON.stringify(this, censor, 2)),
+      store.remote.save("memes.json", JSON.stringify(memes, censor)),
     ]);
   }
 
