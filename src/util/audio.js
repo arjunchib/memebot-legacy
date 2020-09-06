@@ -1,5 +1,8 @@
 import ffmpeg from "fluent-ffmpeg";
+import ffmpegPath from "ffmpeg-static";
 import ytdl from "ytdl-core";
+
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 async function analyze(input, options) {
   const inputOptions = [];
