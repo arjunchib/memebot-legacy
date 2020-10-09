@@ -4,7 +4,18 @@ const baseCommands = [
   { emoji: ":loud_sound:", msg: "<meme>" },
   { emoji: ":slot_machine:", msg: "random" },
   { emoji: ":mag_right:", msg: "search <meme>" },
-  { emoji: ":ledger:", msg: "list" },
+  {
+    emoji: ":ledger:",
+    msg: "list",
+  },
+  {
+    emoji: ":ledger:",
+    msg: "list sort:<field>:<asc|desc>",
+  },
+  {
+    emoji: ":ledger:",
+    msg: "list filter:<eq|gt|lt|gte|lte|in>:<field>:<value>",
+  },
   { emoji: ":page_facing_up:", msg: "<meme> info" },
 ];
 
