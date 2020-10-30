@@ -16,7 +16,6 @@ export default async function ({ msg, meme, stats, client }) {
     const conn = await channel.join();
     const dispatcher = conn.play(store.local.path(`audio/${meme.name}.opus`));
     dispatcher.on("finish", () => {
-      channel.leave();
       conn.disconnect();
     });
     await stats.logPlay(meme);
