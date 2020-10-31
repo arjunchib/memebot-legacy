@@ -13,15 +13,19 @@ export default async function ({ msg, meme, stats, client }) {
     msg.react("🔇");
     return false;
   } else {
-    const conn = await channel.join();
-    const dispatcher = conn.play(store.local.path(`audio/${meme.name}.opus`));
-    dispatcher.on("finish", () => {
+    try {
+      const conn = await channel.join();
+      const dispatcher = conn.play(store.local.path(`audio/${meme.name}.opus`));
+      dispatcher.on("finish", () => {
+        channel.leave();
+      });
+      dispatcher.on("error", (e) => {
+        channel.leave();
+        msg.channel.send(`⛔️ ${e.message} ⛔️`);
+      });
+    } catch (e) {
       channel.leave();
-    });
-    dispatcher.on("error", (e) => {
-      channel.leave();
-      msg.channel.send(`⛔️ ${e.message} ⛔️`);
-    });
+    }
     await stats.logPlay(meme);
     return true;
   }
