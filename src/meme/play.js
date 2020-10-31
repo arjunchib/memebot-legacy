@@ -25,6 +25,7 @@ export default async function ({ msg, meme, stats, client }) {
       });
     } catch (e) {
       channel.leave();
+      throw e;
     }
     await stats.logPlay(meme);
     return true;
