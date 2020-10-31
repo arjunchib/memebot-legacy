@@ -15,6 +15,6 @@ export default function (memes, args) {
     case "lte":
       return memes.filter((meme) => meme[field] <= value);
     case "in":
-      return memes.filter((meme) => meme[field].includes(value));
+      return memes.filter((meme) => [...meme[field]].includes(value));
   }
 }
