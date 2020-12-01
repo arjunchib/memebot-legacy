@@ -25,6 +25,11 @@ export default async function (context) {
     case "sourceurl":
       meme.sourceURL = args[0];
       break;
+    case "private":
+      meme.private = Boolean(args[0]);
+      break;
+    default:
+      return;
   }
   await Promise.all([meme.save(), info(context)]);
 }

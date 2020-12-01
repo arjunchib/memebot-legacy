@@ -27,6 +27,7 @@ export default class Meme {
     if (data.loudness) this.loudness = data.loudness;
     const commands = [this.name, ...this.aliases.values()];
     commands.forEach((cmd) => Meme.all.set(cmd.toLowerCase(), this));
+    this.private = data.private || false;
   }
 
   set name(name) {
@@ -155,5 +156,14 @@ Meme.loadAll = async () => {
   const data = await store.loadAll("memes");
   return data.map((datum) => new Meme(datum));
 };
+
+Meme.getAll = (includePrivate=false) => {
+  return [...new Set(Meme.all.values())].filter(meme => includePrivate || !meme.private);
+}
+
+Meme.getAllCommands = (includePrivate=false) => {
+  const memes = Meme.getAll(includePrivate);
+  return memes.reduce((acc, meme) => [meme.name, ...meme.aliases, ...acc], [])
+}
 
 Meme.all = new Map();

@@ -3,6 +3,7 @@ import info from "./info.js";
 import del from "./delete.js";
 import field from "./field.js";
 import Meme from "../structures/Meme.js";
+import access from "../util/access.js";
 
 export default async function ({ msg, args, arg, stats, client }) {
   if (!Meme.all.has(arg[0].toLowerCase())) {
@@ -11,6 +12,10 @@ export default async function ({ msg, args, arg, stats, client }) {
   }
   const meme = Meme.all.get(arg[0].toLowerCase());
   let context = { msg, meme, stats, client, args };
+  if (!access(msg, 1) && meme.private) {
+    await msg.react("🚫");
+    return
+  }
   if (args.length === 0) {
     await play(context);
   } else {
