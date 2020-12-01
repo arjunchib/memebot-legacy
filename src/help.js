@@ -16,6 +16,10 @@ const baseCommands = [
     emoji: ":ledger:",
     msg: "list filter:<eq|gt|lt|gte|lte|in>:<field>:<value>",
   },
+  {
+    emoji: ":ledger:",
+    msg: "list tag:<tag>",
+  },
   { emoji: ":page_facing_up:", msg: "<meme> info" },
 ];
 

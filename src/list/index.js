@@ -13,6 +13,9 @@ export default async function ({ msg, args, arg }) {
   args.forEach((arg) => {
     const listArgs = arg.split(":");
     switch (listArgs[0]) {
+      case "tag":
+        myMemes = myMemes.filter((meme) => [...meme.tags].includes(listArgs[1]));
+        break;
       case "filter":
         myMemes = filter(myMemes, listArgs);
         break;

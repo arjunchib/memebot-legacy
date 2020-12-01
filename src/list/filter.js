@@ -3,7 +3,7 @@ export default function (memes, args) {
   const value = args[3];
   switch (args[1]) {
     case "limit":
-      return memes.slice(0, Number(args[2]));
+      return memes.slice(0, Number(field));
     case "eq":
       return memes.filter((meme) => meme[field] == value);
     case "gt":
