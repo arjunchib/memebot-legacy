@@ -27,24 +27,24 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
-    "aws-sdk": "^2.782.0",
-    "bufferutil": "^4.0.1",
-    "discord.js": "^12.4.1",
+    "aws-sdk": "^2.819.0",
+    "bufferutil": "^4.0.2",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "erlpack": "github:discordapp/erlpack",
     "ffmpeg-static": "^4.2.7",
     "fluent-ffmpeg": "^2.1.2",
     "mkdirp": "^1.0.4",
-    "natural": "^2.1.5",
-    "prism-media": "^1.2.2",
+    "natural": "^2.4.0",
+    "prism-media": "^1.2.3",
     "sodium": "^3.0.2",
-    "utf-8-validate": "^5.0.2",
-    "ytdl-core": "^4.0.0",
+    "utf-8-validate": "^5.0.3",
+    "ytdl-core": "^4.4.1",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.12.1",
+    "eslint": "^7.16.0",
     "eslint-config-prettier": "^6.15.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.2.1"
   }
 }
