@@ -23,7 +23,7 @@ client.on("ready", () => {
 
 client.on("message", async (msg) => {
   try {
-    if (!msg.content.startsWith(prefix)) return;
+    if (!msg.content.startsWith(`${prefix} `)) return;
     const args = msg.content
       .split(" ")
       .filter((x) => x !== "")
