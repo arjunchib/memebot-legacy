@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config src/index.js",
     "resave-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/resave-memes.js",
-    "reupload-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/reupload-memes.js"
+    "reupload-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/reupload-memes.js",
+    "download-memes": "node --unhandled-rejections=strict --trace-warnings --require dotenv/config ./scripts/download-memes.js"
   },
   "author": "Arjun Chib",
   "license": "ISC",
