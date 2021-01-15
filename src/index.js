@@ -11,7 +11,7 @@ import Meme from "./structures/Meme.js";
 const client = new Discord.Client({
   ws: { intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] },
 });
-const prefix = process.env.PREFIX;
+const prefix = process.env.COMMAND_PREFIX;
 const stats = new StatManager(client);
 const commands = { list, add, help, search, random };
 (async () => await Meme.loadAll())();
