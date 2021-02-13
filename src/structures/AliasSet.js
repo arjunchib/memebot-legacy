@@ -4,7 +4,8 @@ import BaseSet from "./BaseSet.js";
 export default class AliasSet extends BaseSet {
   constructor(aliases, meme) {
     super();
-    aliases.forEach((alias) => this.add(alias));
+    const uniqueAliases = new Set(aliases);
+    uniqueAliases.forEach((alias) => this.add(alias));
     this.meme = meme;
   }
 

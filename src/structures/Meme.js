@@ -157,13 +157,15 @@ Meme.loadAll = async () => {
   return data.map((datum) => new Meme(datum));
 };
 
-Meme.getAll = (includePrivate=false) => {
-  return [...new Set(Meme.all.values())].filter(meme => includePrivate || !meme.private);
-}
+Meme.getAll = (includePrivate = false) => {
+  return [...new Set(Meme.all.values())].filter(
+    (meme) => includePrivate || !meme.private
+  );
+};
 
-Meme.getAllCommands = (includePrivate=false) => {
+Meme.getAllCommands = (includePrivate = false) => {
   const memes = Meme.getAll(includePrivate);
-  return memes.reduce((acc, meme) => [meme.name, ...meme.aliases, ...acc], [])
-}
+  return memes.reduce((acc, meme) => [meme.name, ...meme.aliases, ...acc], []);
+};
 
 Meme.all = new Map();
