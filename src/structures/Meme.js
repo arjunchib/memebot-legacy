@@ -45,9 +45,10 @@ export default class Meme {
   }
 
   set sourceURL(url) {
-    if (!ytdl.validateURL(url)) {
-      throw new Error("Source URL must be a valid youtube URL");
-    }
+    // Should fix this but idgaf
+    // if (!ytdl.validateURL(url)) {
+    //   throw new Error("Source URL must be a valid youtube URL");
+    // }
     this._sourceURL = url;
   }
 
